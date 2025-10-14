@@ -1,162 +1,131 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ordena los Caracteres y Pinyin</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to bottom, #f7f8fc, #e6e9f0);
-      color: #333;
+    :root{
+      --bg:#0f172a;
+      --card:#111827;
+      --muted:#e5e7eb;
+      --accent:#22d3ee;
+      --ok:#16a34a33;
+      --bad:#dc262633;
+      --ring:#22d3ee55;
     }
-    h1 {
-      text-align: center;
-      color: #444;
-      margin-top: 20px;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:#e5e7eb;
+      background: radial-gradient(1200px 600px at 70% -10%, #0b2a35 0%, var(--bg) 50%) no-repeat, var(--bg);
+      min-height:100dvh;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      padding:16px;
     }
-    .instructions {
-      text-align: center;
-      font-size: 18px;
-      margin-top: 10px;
-      color: #666;
+    h1{font-size:clamp(1.2rem, 2.5vw, 1.8rem); margin:4px 0 0}
+    .instructions{opacity:.85; margin:0 0 8px}
+    .game-container{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+      width:100%;
+      max-width:1100px;
     }
-    
-.game-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      gap: 20px;
-      margin: 30px auto;
-      width: 100%;
-      max-width: 1200px;
+    @media (min-width:900px){
+      .game-container{grid-template-columns:1fr 1fr;}
     }
-
-    .box:first-child {
-      flex: 0 0 25%;
-      max-width: 25%;
+    .box{
+      background:linear-gradient(180deg, #0b1220 0%, #0b1222 100%);
+      border:1px solid #1f2937;
+      border-radius:14px;
+      padding:12px;
+      min-height:260px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      box-shadow: 0 10px 30px #00000055 inset, 0 0 0 1px #00000055;
     }
-
-    .box:last-child {
-      flex: 0 0 75%;
-      max-width: 75%;
+    .box h2{margin:0 0 6px; font-size:1rem; color:#c7d2fe}
+    .draggable-items, .droppable-areas{
+      display:grid;
+      gap:8px;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      align-content:start;
     }
-
-    .box {
-      padding: 15px;
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      background-color: #fff;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
+    .draggable-item, .droppable-area{
+      border:1px solid #243041;
+      background:linear-gradient(180deg, #0e1624 0%, #0d1522 100%);
+      color:#e5e7eb;
+      padding:10px;
+      border-radius:10px;
+      text-align:center;
+      min-height:48px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      user-select:none;
+      transition:transform .12s ease, box-shadow .12s ease, border-color .12s;
     }
-    .box h2 {
-      text-align: center;
-      color: #555;
-      margin-bottom: 10px;
+    .draggable-item{
+      cursor:grab;
+      font-size:1.05rem;
     }
-   
-    .draggable-items, .droppable-areas {
-      display: flex;
-      flex-wrap: wrap; 
-      gap: 10px; 
-      justify-content: center; 
+    .draggable-item:active{cursor:grabbing; transform:scale(0.98)}
+    .droppable-area{
+      background:linear-gradient(180deg, #0b1120 0%, #0a1020 100%);
+      font-variant-ligatures:none;
     }
-    .draggable-item {
-      position: relative;
-      margin: 0; 
-      padding: 20px 10px;
-      border: 1px dashed #ccc;
-      border-radius: 5px;
-      background-color: #f0f4f8;
-      text-align: center;
-      cursor: grab;
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-      flex: 0 1 calc(30% - 10px); 
-      max-width: calc(30% - 10px); 
-      box-sizing: border-box; 
+    .droppable-area.empty::after{
+      color:#9ca3af;
+      font-size:.8rem;
+      position:absolute;
+      transform:translateY(28px);
+      pointer-events:none;
     }
-    
-    .draggable-item::before {
-      content: attr(data-number); 
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #007bff;
-      color: #fff;
-      font-size: 12px;
-      font-weight: bold;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .droppable-area{
+      position:relative;
+      min-height:54px;
     }
-    .droppable-area {
-      position: relative;
-      display: flex;
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center; 
-      width: calc(30% - 10px); 
-      max-width: calc(30% - 10px);
-      min-height: 60px;
-      padding: 1rem 0 0 0;
-      border: 1px dashed #ccc;
-      border-radius: 5px;
-      background-color: #e9ecef;
-      box-sizing: border-box;
+    .droppable-area.highlight{
+      outline:2px dashed var(--accent);
+      outline-offset:2px;
+      box-shadow:0 0 0 4px var(--ring);
     }
-    .droppable-area .draggable-item {
-      position: static; 
-      margin: 0;
+    .droppable-area.correct{background:var(--ok); border-color:#16a34a77}
+    .droppable-area.incorrect{background:var(--bad); border-color:#dc262677}
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#0b2530;
+      border:1px solid #113745;
+      font-size:.85rem;
+      color:#a5f3fc;
     }
-    .correct {
-      background-color: #d4edda;
-      color: #155724;
-      border-color: #c3e6cb;
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
     }
-    .incorrect {
-      background-color: #f8d7da;
-      color: #721c24;
-      border-color: #f5c6cb;
+    button{
+      background:linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%);
+      border:0;
+      color:white;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform .08s ease, filter .08s ease;
     }
-    button {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 20px;
-      font-size: 16px;
-      color: #fff;
-      background-color: #007bff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+    button:active{transform:translateY(1px)}
+    #resetBtn{
+      background:linear-gradient(180deg, #64748b 0%, #475569 100%);
     }
-    button:hover {
-      background-color: #0056b3;
-    }
-
-   
-    @media (max-width: 768px) {
-      .game-container {
-        flex-wrap: wrap; 
-      }
-      .box:first-child, .box:last-child {
-        flex: 1 1 100%; 
-        max-width: 100%;
-      }
-      .draggable-item, .droppable-area {
-        flex: 0 1 calc(45% - 10px);
-        max-width: calc(45% - 10px);
-      }
-    }
+    .legend{opacity:.85; font-size:.9rem}
   </style>
 </head>
 <body>
@@ -165,92 +134,194 @@
 
   <div class="game-container">
     <div class="box">
-      <h2>Caracteres</h2>
-      <div id="characters" class="draggable-items">
-        <div class="draggable-item" draggable="true" data-number="1" data-match="wo">我</div>
-        <div class="draggable-item" draggable="true" data-number="2" data-match="ni">你</div>
-        <div class="draggable-item" draggable="true" data-number="3" data-match="ta_m">他</div>
-        <div class="draggable-item" draggable="true" data-number="4" data-match="ta_f">她</div>
-        <div class="draggable-item" draggable="true" data-number="5" data-match="hen">很</div>
-        <div class="draggable-item" draggable="true" data-number="6" data-match="xuexi">学习</div>
-        <div class="draggable-item" draggable="true" data-number="7" data-match="hanyu">汉语</div>
-        <div class="draggable-item" draggable="true" data-number="8" data-match="shi">是</div>
-        <div class="draggable-item" draggable="true" data-number="9" data-match="shenme">什么</div>
-        <div class="draggable-item" draggable="true" data-number="10" data-match="jiao">叫</div>
-        <div class="draggable-item" draggable="true" data-number="11" data-match="mingzi">名字</div>
-        <div class="draggable-item" draggable="true" data-number="12" data-match="gaoxing">高兴</div>
-        <div class="draggable-item" draggable="true" data-number="13" data-match="renshi">认识</div>
-        <div class="draggable-item" draggable="true" data-number="14" data-match="men">们</div>
-        <div class="draggable-item" draggable="true" data-number="15" data-match="mao">猫</div>
-        <div class="draggable-item" draggable="true" data-number="16" data-match="dou">都</div>
-        <div class="draggable-item" draggable="true" data-number="17" data-match="gou">狗</div>
-        
-      </div>
+      <h2>Caracteres <span class="pill">Drag</span></h2>
+      <div id="characters" class="draggable-items" aria-label="Caracteres para arrastrar"></div>
     </div>
 
-    
     <div class="box">
-      <h2>Pinyin</h2>
-      <div id="pinyin" class="droppable-areas">
-        <div class="droppable-area" data-match="shenme">shénme</div>
-        <div class="droppable-area" data-match="wo">wǒ</div>
-        <div class="droppable-area" data-match="jiao">jiào</div>
-        <div class="droppable-area" data-match="ta_f">tā (femenino)</div>
-        <div class="droppable-area" data-match="renshi">rènshi</div>
-        <div class="droppable-area" data-match="shi">shì</div>
-        <div class="droppable-area" data-match="hanyu">hànyǔ</div>
-        <div class="droppable-area" data-match="ni">nǐ</div>
-        <div class="droppable-area" data-match="mingzi">míngzi</div>
-        <div class="droppable-area" data-match="mao">māo</div>
-        <div class="droppable-area" data-match="xuexi">xuéxí</div>
-        <div class="droppable-area" data-match="men">men</div>
-        <div class="droppable-area" data-match="hen">hěn</div>
-        <div class="droppable-area" data-match="ta_m">tā (masculino)</div>
-        <div class="droppable-area" data-match="gaoxing">gāoxìng</div>
-        <div class="droppable-area" data-match="dou">dōu</div>
-        <div class="droppable-area" data-match="gou">gǒu</div>
-      </div>
+      <h2>Pinyin <span class="pill">Drop</span></h2>
+      <div id="pinyin" class="droppable-areas" aria-label="Zonas para soltar"></div>
     </div>
   </div>
 
-  <button onclick="checkAnswers()">Verificar Respuestas</button>
+  <div class="controls">
+    <button id="checkBtn">Verificar respuestas</button>
+    <button id="resetBtn">Reiniciar juego</button>
+  </div>
+  <div class="legend">Consejo: también puedes hacer clic sobre un carácter y luego sobre un cuadro de pinyin para soltarlo.</div>
 
   <script>
-    const draggables = document.querySelectorAll('.draggable-item');
-    const droppables = document.querySelectorAll('.droppable-area');
+const characters = [
+  { char: '我',   pinyin: 'wǒ' },
+  { char: '你',   pinyin: 'nǐ' },
+  { char: '他',   pinyin: 'tā (masculino)' },
+  { char: '她',   pinyin: 'tā (femenino)' },
+  { char: '很',   pinyin: 'hěn' },
+  { char: '学习', pinyin: 'xuéxí' },
+  { char: '汉语', pinyin: 'hànyǔ' },
+  { char: '是',   pinyin: 'shì' },
+  { char: '什么', pinyin: 'shénme' },
+  { char: '叫',   pinyin: 'jiào' },
+  { char: '名字', pinyin: 'míngzi' },
+  { char: '高兴', pinyin: 'gāoxìng' },
+  { char: '认识', pinyin: 'rènshi' },
+  { char: '们',   pinyin: 'men' },
+  { char: '猫',   pinyin: 'māo' },
+  { char: '都',   pinyin: 'dōu' },
+  { char: '狗',   pinyin: 'gǒu' }
+];
 
-    draggables.forEach(item => {
-      item.addEventListener('dragstart', () => {
-        item.classList.add('dragging');
-      });
-      item.addEventListener('dragend', () => {
-        item.classList.remove('dragging');
-      });
-    });
+    // Util
+    const shuffleArray = (array) => {
+      const a = [...array];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
 
-    droppables.forEach(area => {
-      area.addEventListener('dragover', e => {
-        e.preventDefault();
-        const dragging = document.querySelector('.dragging');
-        if (dragging) {
-         
-          if (area.children.length > 1) {
-            area.removeChild(area.lastChild);
-          }
-          area.appendChild(dragging);
-        }
+    const charactersContainer = document.getElementById('characters');
+    const pinyinContainer = document.getElementById('pinyin');
+    const checkBtn = document.getElementById('checkBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // Estado para soporte de click-to-drop
+    let pickedEl = null;
+
+    function createCharacterElements() {
+      const shuffledCharacters = shuffleArray(characters);
+      charactersContainer.innerHTML = '';
+      shuffledCharacters.forEach((item, idx) => {
+        const el = document.createElement('div');
+        el.className = 'draggable-item';
+        el.draggable = true;
+        el.textContent = item.char;
+        el.dataset.match = item.pinyin;
+        el.dataset.id = 'char-' + idx;
+        charactersContainer.appendChild(el);
       });
-    });
+    }
+
+    function createDroppableAreas() {
+      const shuffled = shuffleArray(characters);
+      pinyinContainer.innerHTML = '';
+      shuffled.forEach((item) => {
+        const area = document.createElement('div');
+        area.className = 'droppable-area empty';
+        area.dataset.match = item.pinyin;
+        area.textContent = item.pinyin;
+        pinyinContainer.appendChild(area);
+      });
+    }
+
+    function resetHighlights() {
+      document.querySelectorAll('.droppable-area').forEach(a => a.classList.remove('highlight'));
+    }
+
+    function resetFeedback() {
+      document.querySelectorAll('.droppable-area').forEach(a => a.classList.remove('correct','incorrect'));
+    }
+
+    function resetGame() {
+      pickedEl = null;
+      createCharacterElements();
+      createDroppableAreas();
+    }
 
     function checkAnswers() {
-      droppables.forEach(area => {
-        const draggedItem = area.querySelector('.draggable-item');
-        if (draggedItem) {
-          const isCorrect = draggedItem.getAttribute('data-match') === area.getAttribute('data-match');
-          area.classList.add(isCorrect ? 'correct' : 'incorrect');
+      resetFeedback();
+      document.querySelectorAll('.droppable-area').forEach(area => {
+        const child = area.querySelector('.draggable-item');
+        if (child) {
+          const ok = child.dataset.match === area.dataset.match;
+          area.classList.add(ok ? 'correct' : 'incorrect');
         }
       });
     }
+
+    // Delegación de eventos para draggables (funciona aunque se regenere el DOM)
+    document.addEventListener('dragstart', (e) => {
+      const item = e.target.closest('.draggable-item');
+      if (!item) return;
+      e.dataTransfer.setData('text/plain', item.dataset.id || '');
+      e.dataTransfer.effectAllowed = 'move';
+      item.classList.add('dragging');
+      pickedEl = item; // también para clic-drop
+    });
+
+    document.addEventListener('dragend', (e) => {
+      const item = e.target.closest('.draggable-item');
+      if (item) item.classList.remove('dragging');
+      resetHighlights();
+    });
+
+    // Delegación para droppables
+    document.addEventListener('dragover', (e) => {
+      const area = e.target.closest('.droppable-area');
+      if (!area) return;
+      e.preventDefault(); // necesario para permitir drop
+      area.classList.add('highlight');
+      e.dataTransfer.dropEffect = 'move';
+    });
+
+    document.addEventListener('dragleave', (e) => {
+      const area = e.target.closest('.droppable-area');
+      if (!area) return;
+      area.classList.remove('highlight');
+    });
+
+    document.addEventListener('drop', (e) => {
+      const area = e.target.closest('.droppable-area');
+      if (!area) return;
+      e.preventDefault();
+      area.classList.remove('highlight');
+
+      // Solo un item por área: si ya hay uno, lo devolvemos a la columna de caracteres
+      const existing = area.querySelector('.draggable-item');
+      if (existing && pickedEl && existing !== pickedEl) {
+        charactersContainer.appendChild(existing);
+      }
+
+      // Mover el elemento arrastrado
+      const dragging = document.querySelector('.draggable-item.dragging') || pickedEl;
+      if (dragging) {
+        area.appendChild(dragging);
+        area.classList.remove('empty');
+      }
+    });
+
+    // Soporte click-to-drop (útil en móviles)
+    document.addEventListener('click', (e) => {
+      const item = e.target.closest('.draggable-item');
+      const area = e.target.closest('.droppable-area');
+
+      if (item) {
+        pickedEl?.classList.remove('selected');
+        pickedEl = item;
+        item.classList.add('selected');
+        return;
+      }
+      if (area && pickedEl) {
+        const existing = area.querySelector('.draggable-item');
+        if (existing && existing !== pickedEl) {
+          charactersContainer.appendChild(existing);
+        }
+        area.appendChild(pickedEl);
+        area.classList.remove('empty');
+        pickedEl.classList.remove('selected');
+        pickedEl = null;
+      }
+    });
+
+    checkBtn.addEventListener('click', checkAnswers);
+    resetBtn.addEventListener('click', () => {
+      resetFeedback();
+      resetGame();
+    });
+
+    // Inicializar
+    resetGame();
   </script>
 </body>
 </html>
