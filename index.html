@@ -23,24 +23,24 @@
       margin-top: 10px;
       color: #666;
     }
-    /* Contenedor principal */
+    
     .game-container {
       display: flex;
-      flex-direction: row; /* Mantener en fila */
+      flex-direction: row; 
       justify-content: space-between;
-      gap: 20px; /* Separación entre columnas */
+      gap: 20px;
       margin: 30px auto;
       width: 100%;
       max-width: 1200px;
     }
-    /* Caracteres (25% del ancho) */
+  
     .box:first-child {
-      flex: 0 0 25%; /* Siempre ocupa el 25% */
+      flex: 0 0 25%; 
       max-width: 25%;
     }
-    /* Pinyin (75% del ancho) */
+    
     .box:last-child {
-      flex: 0 0 75%; /* Siempre ocupa el 75% */
+      flex: 0 0 75%; 
       max-width: 75%;
     }
     .box {
@@ -57,16 +57,16 @@
       color: #555;
       margin-bottom: 10px;
     }
-    /* Contenedor interno para los elementos */
+   
     .draggable-items, .droppable-areas {
       display: flex;
-      flex-wrap: wrap; /* Permitir que los elementos se ajusten en filas */
-      gap: 10px; /* Espacio entre los elementos */
-      justify-content: center; /* Centrar elementos horizontalmente */
+      flex-wrap: wrap; 
+      gap: 10px; 
+      justify-content: center; 
     }
     .draggable-item {
       position: relative;
-      margin: 0; /* Eliminar márgenes externos */
+      margin: 0; 
       padding: 20px 10px;
       border: 1px dashed #ccc;
       border-radius: 5px;
@@ -76,13 +76,13 @@
       font-size: 18px;
       font-weight: bold;
       color: #333;
-      flex: 0 1 calc(30% - 10px); /* Cada elemento ocupa 30% del ancho disponible menos el espacio entre elementos */
-      max-width: calc(30% - 10px); /* Máximo ancho del elemento */
-      box-sizing: border-box; /* Incluir padding y borde en el ancho total */
+      flex: 0 1 calc(30% - 10px); 
+      max-width: calc(30% - 10px); 
+      box-sizing: border-box; 
     }
-    /* Número en cada carácter */
+    
     .draggable-item::before {
-      content: attr(data-number); /* Muestra el número del carácter */
+      content: attr(data-number); 
       position: absolute;
       top: -10px;
       left: 50%;
@@ -101,22 +101,21 @@
     .droppable-area {
       position: relative;
       display: flex;
-      flex-direction: column; /* Apilar el pinyin y el carácter */
-      align-items: center; /* Centrar horizontalmente */
-      justify-content: center; /* Centrar verticalmente */
-      width: calc(30% - 10px); /* Igual ancho que los caracteres */
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      width: calc(30% - 10px); 
       max-width: calc(30% - 10px);
       min-height: 60px;
-      padding: 5px;
+      padding: 1rem 0 0 0;
       border: 1px dashed #ccc;
       border-radius: 5px;
       background-color: #e9ecef;
       box-sizing: border-box;
     }
     .droppable-area .draggable-item {
-      position: static; /* Asegura que el carácter dentro esté centrado */
+      position: static; 
       margin: 0;
-      padding: 5px 10px;
     }
     .correct {
       background-color: #d4edda;
@@ -143,17 +142,17 @@
       background-color: #0056b3;
     }
 
-    /* Responsivo: Ajustar proporciones en pantallas pequeñas */
+   
     @media (max-width: 768px) {
       .game-container {
-        flex-wrap: wrap; /* Permitir que las columnas se ajusten en fila */
+        flex-wrap: wrap; 
       }
       .box:first-child, .box:last-child {
-        flex: 1 1 100%; /* Ambas secciones ocupan el 100% del ancho */
+        flex: 1 1 100%; 
         max-width: 100%;
       }
       .draggable-item, .droppable-area {
-        flex: 0 1 calc(45% - 10px); /* En pantallas pequeñas, los elementos ocuparán 45% del ancho disponible */
+        flex: 0 1 calc(45% - 10px);
         max-width: calc(45% - 10px);
       }
     }
@@ -164,35 +163,35 @@
   <p class="instructions">Arrastra cada carácter al pinyin correcto. 加油！</p>
 
   <div class="game-container">
-    <!-- Caracteres -->
-    <div class="box">
+  
       <h2>Caracteres</h2>
       <div id="characters" class="draggable-items">
-        <div class="draggable-item" draggable="true" data-match="wo">我</div>
-        <div class="draggable-item" draggable="true" data-match="ni">你</div>
-        <div class="draggable-item" draggable="true" data-match="ta_m">他</div>
-        <div class="draggable-item" draggable="true" data-match="ta_f">她</div>
-        <div class="draggable-item" draggable="true" data-match="hen">很</div>
-        <div class="draggable-item" draggable="true" data-match="xuexi">学习</div>
-        <div class="draggable-item" draggable="true" data-match="hanyu">汉语</div>
-        <div class="draggable-item" draggable="true" data-match="shi">是</div>
-        <div class="draggable-item" draggable="true" data-match="shenme">什么</div>
-        <div class="draggable-item" draggable="true" data-match="jiao">叫</div>
-        <div class="draggable-item" draggable="true" data-match="mingzi">名字</div>
-        <div class="draggable-item" draggable="true" data-match="gaoxing">高兴</div>
-        <div class="draggable-item" draggable="true" data-match="renshi">认识</div>
-        <div class="draggable-item" draggable="true" data-match="men">们</div>
-        <div class="draggable-item" draggable="true" data-match="mao">猫</div>
-        <div class="draggable-item" draggable="true" data-match="dou">都</div>
+        <div class="draggable-item" draggable="true" data-number="1" data-match="wo">我</div>
+        <div class="draggable-item" draggable="true" data-number="2" data-match="ni">你</div>
+        <div class="draggable-item" draggable="true" data-number="3" data-match="ta_m">他</div>
+        <div class="draggable-item" draggable="true" data-number="4" data-match="ta_f">她</div>
+        <div class="draggable-item" draggable="true" data-number="5" data-match="hen">很</div>
+        <div class="draggable-item" draggable="true" data-number="6" data-match="xuexi">学习</div>
+        <div class="draggable-item" draggable="true" data-number="7" data-match="hanyu">汉语</div>
+        <div class="draggable-item" draggable="true" data-number="8" data-match="shi">是</div>
+        <div class="draggable-item" draggable="true" data-number="9" data-match="shenme">什么</div>
+        <div class="draggable-item" draggable="true" data-number="10" data-match="jiao">叫</div>
+        <div class="draggable-item" draggable="true" data-number="11" data-match="mingzi">名字</div>
+        <div class="draggable-item" draggable="true" data-number="12" data-match="gaoxing">高兴</div>
+        <div class="draggable-item" draggable="true" data-number="13" data-match="renshi">认识</div>
+        <div class="draggable-item" draggable="true" data-number="14" data-match="men">们</div>
+        <div class="draggable-item" draggable="true" data-number="15" data-match="mao">猫</div>
+        <div class="draggable-item" draggable="true" data-number="16" data-match="dou">都</div>
+        <div class="draggable-item" draggable="true" data-number="17" data-match="gou">狗</div>
+
       </div>
     </div>
 
-    <!-- Pinyin -->
+    
     <div class="box">
       <h2>Pinyin</h2>
       <div id="pinyin" class="droppable-areas">
         <div class="droppable-area" data-match="shenme">shénme</div>
-        <div class="droppable-area" data-match="gou">gǒu</div>
         <div class="droppable-area" data-match="wo">wǒ</div>
         <div class="droppable-area" data-match="jiao">jiào</div>
         <div class="droppable-area" data-match="ta_f">tā (femenino)</div>
@@ -208,6 +207,7 @@
         <div class="droppable-area" data-match="ta_m">tā (masculino)</div>
         <div class="droppable-area" data-match="gaoxing">gāoxìng</div>
         <div class="droppable-area" data-match="dou">dōu</div>
+        <div class="droppable-area" data-match="gou">gǒu</div>
       </div>
     </div>
   </div>
@@ -232,7 +232,7 @@
         e.preventDefault();
         const dragging = document.querySelector('.dragging');
         if (dragging) {
-          // Reemplazar cualquier carácter ya existente
+         
           if (area.children.length > 1) {
             area.removeChild(area.lastChild);
           }
