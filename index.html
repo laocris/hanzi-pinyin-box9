@@ -24,25 +24,26 @@
       color: #666;
     }
     
-    .game-container {
+.game-container {
       display: flex;
-      flex-direction: row; 
+      flex-direction: row;
       justify-content: space-between;
       gap: 20px;
       margin: 30px auto;
       width: 100%;
       max-width: 1200px;
     }
-  
+
     .box:first-child {
-      flex: 0 0 25%; 
+      flex: 0 0 25%;
       max-width: 25%;
     }
-    
+
     .box:last-child {
-      flex: 0 0 75%; 
+      flex: 0 0 75%;
       max-width: 75%;
     }
+
     .box {
       padding: 15px;
       border: 2px solid #ddd;
@@ -163,7 +164,7 @@
   <p class="instructions">Arrastra cada carácter al pinyin correcto. 加油！</p>
 
   <div class="game-container">
-  
+    <div class="box">
       <h2>Caracteres</h2>
       <div id="characters" class="draggable-items">
         <div class="draggable-item" draggable="true" data-number="1" data-match="wo">我</div>
@@ -183,7 +184,7 @@
         <div class="draggable-item" draggable="true" data-number="15" data-match="mao">猫</div>
         <div class="draggable-item" draggable="true" data-number="16" data-match="dou">都</div>
         <div class="draggable-item" draggable="true" data-number="17" data-match="gou">狗</div>
-
+        
       </div>
     </div>
 
